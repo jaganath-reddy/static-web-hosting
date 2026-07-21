@@ -1,6 +1,6 @@
 name: static webhosting
 on:
-  workflow_dispatch: 
+  push: 
 
 jobs:
   deploy:
