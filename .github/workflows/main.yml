@@ -1,12 +1,6 @@
 name: static webhosting
 on:
-  push:
-    branches: [ "master" ]
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+  workflow_dispatch: 
 
 jobs:
   deploy:
@@ -16,8 +10,10 @@ jobs:
       - name: cloning repository
         uses: actions/checkout@v4
 
-      - name: setup github
-        uses: actions/configure-pages@v6.0.0
+      - name: copy website files to nginx
+        uses: appleboy/scp-action@v1
+        with:
+          host:
 
       - name: uplod files to website
         uses: actions/upload-pages-artifact@v5.0.0
