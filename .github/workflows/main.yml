@@ -13,12 +13,21 @@ jobs:
       - name: copy website files to nginx
         uses: appleboy/scp-action@v1
         with:
-          host:
+          host: ${{ secrets.IP }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          souce: "./*"
+          target: "/tmp/website"
 
-      - name: uplod files to website
-        uses: actions/upload-pages-artifact@v5.0.0
+      - name: deploy into website
+        uses: appleboy/ssh-action@v1
         with:
-          path: .
+           host: ${{ secrets.IP }}
+           username: ${{ secrets.USER }}
+           key: ${{ secrets.PRIVATE_KEY }}
+           script: |
+             sudo cp -r /tmp/website/* /var/nginx/html
+             sudo systemctl reload nginx
+             
 
-      - name: deploy the website
-        uses: actions/deploy-pages@v3.0.2-node.24
+      
